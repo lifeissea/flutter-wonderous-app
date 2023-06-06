@@ -80,14 +80,14 @@ class AppLogic {
   /// Called from the UI layer once a MediaQuery has been obtained
   void handleAppSizeChanged() {
     /// Disable landscape layout on smaller form factors
-    bool isSmall = display.size.shortestSide / display.devicePixelRatio < 600;
+    bool isSmall = display.shortestSide < 600;
     supportedOrientations = isSmall ? [Axis.vertical] : [Axis.vertical, Axis.horizontal];
     _updateSystemOrientation();
   }
 
-  Display get display => PlatformDispatcher.instance.displays.first;
+  Size get display => MediaQueryData.fromWindow(window).size;
 
-  bool shouldUseNavRail() => display.size.width > display.size.height && display.size.height > 250;
+  bool shouldUseNavRail() => display.width > display.height && display.height > 250;
 
   /// Enable landscape, portrait or both. Views can call this method to override the default settings.
   /// For example, the [FullscreenVideoViewer] always wants to enable both landscape and portrait.
